@@ -1,9 +1,9 @@
 app:
-  title: Scaffolded Backstage App
+  title: Coding test
   baseUrl: http://localhost:3000
 
 organization:
-  name: My Company
+  name: Ravel Silva estudos
 
 backend:
   # Used for enabling authentication, secret is shared by all backend plugins
@@ -93,6 +93,9 @@ catalog:
       target: ../../examples/org.yaml
       rules:
         - allow: [User, Group]
+
+    - type: file
+      target: ../../examples/test-service.yaml # <--- APONTA PARA SEU NOVO ARQUIVO YAML DE TESTE
 
     ## Uncomment these lines to add more example data
     # - type: url

@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: meu-servico-de-teste
+  description: Um componente de teste para verificar a configuração do Backstage.
+  annotations:
+    backstage.io/source-location: url:https://github.com/exemplo/repositorio-de-teste
+  tags:
+    - teste
+    - demo
+spec:
+  type: service
+  lifecycle: experimental # Indica que este é um serviço de teste
+  owner: time-teste
+  system: plataforma-teste

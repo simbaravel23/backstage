@@ -1,99 +1,64 @@
 import { PropsWithChildren } from 'react';
-import { makeStyles } from '@material-ui/core';
-import HomeIcon from '@material-ui/icons/Home';
-import ExtensionIcon from '@material-ui/icons/Extension';
-import LibraryBooks from '@material-ui/icons/LibraryBooks';
-import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
-import LogoFull from './LogoFull';
-import LogoIcon from './LogoIcon';
+import { makeStyles, IconButton } from '@material-ui/core'; // Adicionamos IconButton aqui
+import SearchIcon from '@material-ui/icons/Search';
+import NotificationsIcon from '@material-ui/icons/Notifications'; // Deixamos como fallback
+
 import {
   Settings as SidebarSettings,
   UserSettingsSignInAvatar,
 } from '@backstage/plugin-user-settings';
-import { SidebarSearchModal } from '@backstage/plugin-search';
+import { SidebarSearchModal } from '@backstage/plugin-search'; // IMPORT CORRETO
 import {
-  Sidebar,
-  sidebarConfig,
-  SidebarDivider,
-  SidebarGroup,
-  SidebarItem,
-  SidebarPage,
-  SidebarScrollWrapper,
-  SidebarSpace,
-  useSidebarOpenState,
   Link,
+  Header,
+  HeaderTabs,
+  Content,
 } from '@backstage/core-components';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import { MyGroupsSidebarItem } from '@backstage/plugin-org';
-import GroupIcon from '@material-ui/icons/People';
-import { NotificationsSidebarItem } from '@backstage/plugin-notifications';
+import LogoFull from './LogoFull';
+// O componente SidebarLogo, useSidebarLogoStyles, SidebarDivider, etc., foram removidos.
 
-const useSidebarLogoStyles = makeStyles({
-  root: {
-    width: sidebarConfig.drawerWidthClosed,
-    height: 3 * sidebarConfig.logoHeight,
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    alignItems: 'center',
-    marginBottom: -14,
-  },
-  link: {
-    width: sidebarConfig.drawerWidthClosed,
-    marginLeft: 24,
-  },
-});
+// 1. DEFINIÇÃO DOS LINKS DE NAVEGAÇÃO (Tabs)
+const tabs = [
+  { id: 'catalog', label: 'Home', to: 'catalog' },
+  { id: 'api-docs', label: 'APIs', to: 'api-docs' },
+  { id: 'docs', label: 'Docs', to: 'docs' },
+  { id: 'create', label: 'Create...', to: 'create' },
+  { id: 'my-groups', label: 'My Groups', to: 'catalog?filters[user]=owned' },
+];
 
-const SidebarLogo = () => {
-  const classes = useSidebarLogoStyles();
-  const { isOpen } = useSidebarOpenState();
-
-  return (
-    <div className={classes.root}>
-      <Link to="/" underline="none" className={classes.link} aria-label="Home">
-        {isOpen ? <LogoFull /> : <LogoIcon />}
-      </Link>
-    </div>
-  );
-};
-
+// 2. O COMPONENTE ROOT REESCRITO
 export const Root = ({ children }: PropsWithChildren<{}>) => (
-  <SidebarPage>
-    <Sidebar>
-      <SidebarLogo />
-      <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
-        <SidebarSearchModal />
-      </SidebarGroup>
-      <SidebarDivider />
-      <SidebarGroup label="Menu" icon={<MenuIcon />}>
-        {/* Global nav, not org-specific */}
-        <SidebarItem icon={HomeIcon} to="catalog" text="Home" />
-        <MyGroupsSidebarItem
-          singularTitle="My Group"
-          pluralTitle="My Groups"
-          icon={GroupIcon}
-        />
-        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
-        <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
-        {/* End global nav */}
-        <SidebarDivider />
-        <SidebarScrollWrapper>
-          {/* Items in this group will be scrollable if they run out of space */}
-        </SidebarScrollWrapper>
-      </SidebarGroup>
-      <SidebarSpace />
-      <SidebarDivider />
-      <NotificationsSidebarItem />
-      <SidebarDivider />
-      <SidebarGroup
-        label="Settings"
-        icon={<UserSettingsSignInAvatar />}
-        to="/settings"
-      >
-        <SidebarSettings />
-      </SidebarGroup>
-    </Sidebar>
-    {children}
-  </SidebarPage>
+  <>
+    {/* CABEÇALHO SUPERIOR */}
+    <Header
+      title="Seu Portal Dev"
+      subtitle="Visão Geral do Backstage"
+      logo={<Link to="/" aria-label="Home"><LogoFull /></Link>} 
+    >
+      {/* AÇÕES NO CANTO SUPERIOR DIREITO */}
+      
+      {/* CORREÇÃO DO MODAL DE BUSCA: o botão de busca é o trigger */}
+      <SidebarSearchModal>
+        <IconButton aria-label="Search" color="inherit">
+          <SearchIcon />
+        </IconButton>
+      </SidebarSearchModal>
+      
+      {/* BOTÃO DE NOTIFICAÇÕES (Simplesmente um link para a rota /notifications) */}
+      <IconButton aria-label="Notifications" color="inherit" component={Link} to="/notifications">
+          <NotificationsIcon />
+      </IconButton>
+      
+      {/* AVATAR DE USUÁRIO / SETTINGS */}
+      <UserSettingsSignInAvatar />
+    </Header>
+
+    {/* NAVEGAÇÃO HORIZONTAL */}
+    <HeaderTabs tabs={tabs} />
+
+    {/* CONTEÚDO PRINCIPAL */}
+    <Content>
+      {children}
+    </Content>
+  </>
 );

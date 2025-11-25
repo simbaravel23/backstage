@@ -1,13 +1,23 @@
+# catalog-info.yaml
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: backstage
-  description: An example of a Backstage application.
-  # Example for optional annotations
-  # annotations:
-  #   github.com/project-slug: backstage/backstage
-  #   backstage.io/techdocs-ref: dir:.
+  # O nome de exibição no catálogo
+  name: meu-servico-catalogo-teste
+  description: Um serviço de backend simples para demonstração do Catálogo Backstage.
+  annotations:
+    # Adicionar anotações importantes, como o caminho do repositório
+    backstage.io/source-location: https://github.com/simbaravel23/api-alura-restfull
+  tags:
+    - nodejs
+    - backend
+  # Ligações com o time proprietário
+  links:
+    - url: https://SUA_ORG.com/docs/meu-servico
+      title: Documentação Externa
+      icon: docs
 spec:
-  type: website
-  owner: john@example.com
-  lifecycle: experimental
+  type: service
+  lifecycle: production # ou development, deprecated, etc.
+  owner: time-api # Deve corresponder a um 'Group' ou 'User' existente
+  system: sistema-core # Deve corresponder a um 'System' existente

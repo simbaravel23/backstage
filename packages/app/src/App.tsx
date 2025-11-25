@@ -1,4 +1,11 @@
 import { Navigate, Route } from 'react-router-dom';
+import { 
+  UnifiedThemeProvider, 
+  createUnifiedTheme, 
+  palettes,
+  genPageTheme,
+  shapes 
+} from '@backstage/theme';
 import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
 import {
   CatalogEntityPage,
@@ -38,6 +45,34 @@ import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
 
+const customTheme = createUnifiedTheme({
+  palette: {
+    ...palettes.light,
+    primary: {
+      main: '#3498db',
+    },
+    navigation: {
+      background: '#ffffff',
+      indicator: '#3498db',
+      color: '#2c3e50',
+      selectedColor: '#3498db',
+    },
+  },
+  // --- ADICIONE ESTA PARTE PARA O HEADER AZUL ---
+  defaultPageTheme: 'home',
+  pageTheme: {
+    home: genPageTheme({ colors: ['#3498db', '#3498db'], shape: shapes.wave }),
+    documentation: genPageTheme({ colors: ['#3498db', '#3498db'], shape: shapes.wave }),
+    tool: genPageTheme({ colors: ['#3498db', '#3498db'], shape: shapes.round }),
+    service: genPageTheme({ colors: ['#3498db', '#3498db'], shape: shapes.wave }),
+    website: genPageTheme({ colors: ['#3498db', '#3498db'], shape: shapes.wave }),
+    library: genPageTheme({ colors: ['#3498db', '#3498db'], shape: shapes.wave }),
+    other: genPageTheme({ colors: ['#3498db', '#3498db'], shape: shapes.wave }),
+    app: genPageTheme({ colors: ['#3498db', '#3498db'], shape: shapes.wave }),
+    apis: genPageTheme({ colors: ['#3498db', '#3498db'], shape: shapes.wave }),
+  },
+});
+
 const app = createApp({
   apis,
   bindRoutes({ bind }) {
@@ -57,6 +92,16 @@ const app = createApp({
       catalogIndex: catalogPlugin.routes.catalogIndex,
     });
   },
+  // --- AQUI ESTÁ A MUDANÇA: ADICIONANDO O TEMA ---
+  themes: [{
+    id: 'custom-theme',
+    title: 'Meu Tema',
+    variant: 'light',
+    Provider: ({ children }) => (
+      <UnifiedThemeProvider theme={customTheme} children={children} />
+    ),
+  }],
+  // -----------------------------------------------
   components: {
     SignInPage: props => <SignInPage {...props} auto providers={['guest']} />,
   },
