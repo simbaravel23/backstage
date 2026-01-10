@@ -114,3 +114,7 @@ kubernetes:
 permission:
   # setting this to `false` will disable permissions
   enabled: true
+catalog:
+  locations:
+    - type: file
+      target: ./template-simples.yaml 

@@ -1,0 +1,30 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: meu-primeiro-template
+  title: Criar Novo Projeto de Estudo
+  description: Cria um repositório básico com README
+spec:
+  owner: guests
+  type: service
+
+  # Aqui definimos o que o usuário vai preencher na tela
+  parameters:
+    - title: Dados do Projeto
+      required:
+        - name
+      properties:
+        name:
+          title: Nome do Projeto
+          type: string
+          description: Escolha um nome para o seu novo componente.
+
+  # Aqui definimos o que o Backstage vai fazer por baixo dos panos
+  steps:
+    - id: log-message
+      name: Logando o nome
+      action: debug:log
+      input:
+        message: "O nome escolhido foi: ${{ parameters.name }}"
+
+    # Em um cenário real, aqui viria o passo de "publish" para o GitHub
