@@ -1,13 +1,10 @@
 import { PropsWithChildren } from 'react';
-import { makeStyles, IconButton } from '@material-ui/core'; // Adicionamos IconButton aqui
+import { IconButton } from '@material-ui/core'; // Adicionamos IconButton aqui
 import SearchIcon from '@material-ui/icons/Search';
 import NotificationsIcon from '@material-ui/icons/Notifications'; // Deixamos como fallback
 
-import {
-  Settings as SidebarSettings,
-  UserSettingsSignInAvatar,
-} from '@backstage/plugin-user-settings';
-import { SidebarSearchModal } from '@backstage/plugin-search'; // IMPORT CORRETO
+import { UserSettingsSignInAvatar } from '@backstage/plugin-user-settings';
+import { SidebarSearchModal } from '@backstage/plugin-search-react';
 import {
   Link,
   Header,
@@ -19,22 +16,22 @@ import LogoFull from './LogoFull';
 
 // 1. DEFINIÇÃO DOS LINKS DE NAVEGAÇÃO (Tabs)
 const tabs = [
-  { id: 'catalog', label: 'Home', to: 'catalog' },
-  { id: 'api-docs', label: 'APIs', to: 'api-docs' },
-  { id: 'docs', label: 'Docs', to: 'docs' },
-  { id: 'create', label: 'Create...', to: 'create' },
-  { id: 'my-groups', label: 'My Groups', to: 'catalog?filters[user]=owned' },
+  { id: 'catalog', label: 'Home', to: '/catalog' },
+  { id: 'api-docs', label: 'APIs', to: '/api-docs' },
+  { id: 'docs', label: 'Docs', to: '/docs' },
+  { id: 'create', label: 'Create...', to: '/create' },
+  { id: 'my-groups', label: 'My Groups', to: '/catalog?filters[user]=owned' },
 ];
 
 // 2. O COMPONENTE ROOT REESCRITO
 export const Root = ({ children }: PropsWithChildren<{}>) => (
   <>
     {/* CABEÇALHO SUPERIOR */}
-    <Header
-      title="Seu Portal Dev"
-      subtitle="Visão Geral do Backstage"
-      logo={<Link to="/" aria-label="Home"><LogoFull /></Link>} 
-    >
+  <Header
+    title="Seu Portal Dev"
+    subtitle="Visão Geral do Backstage"
+  >
+    <LogoFull />
       {/* AÇÕES NO CANTO SUPERIOR DIREITO */}
       
       {/* CORREÇÃO DO MODAL DE BUSCA: o botão de busca é o trigger */}

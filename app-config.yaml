@@ -97,6 +97,9 @@ catalog:
     - type: file
       target: ../../examples/test-service.yaml # <--- APONTA PARA SEU NOVO ARQUIVO YAML DE TESTE
 
+    - type: file
+      target: ../../template-simples.yaml
+
     ## Uncomment these lines to add more example data
     # - type: url
     #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
@@ -114,7 +117,4 @@ kubernetes:
 permission:
   # setting this to `false` will disable permissions
   enabled: true
-catalog:
-  locations:
-    - type: file
-      target: ./template-simples.yaml 
+## (catalog.locations merged above) 
