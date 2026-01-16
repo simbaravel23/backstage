@@ -35,13 +35,8 @@ backend:
 integrations:
   github:
     - host: github.com
-      # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
-      # about setting up the GitHub integration here: https://backstage.io/docs/integrations/github/locations#configuration
       token: ${GITHUB_TOKEN}
-    ### Example for how to add your GitHub Enterprise instance using the API:
-    # - host: ghe.example.net
-    #   apiBaseUrl: https://ghe.example.net/api/v3
-    #   token: ${GHE_TOKEN}
+  file: {} # <--- Adicione isso para permitir ler sua pasta skeleton
 
 proxy:
   ### Example for how to add a proxy endpoint for the frontend.
@@ -76,7 +71,7 @@ catalog:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location]
+  - allow: [Component, System, API, Resource, Location, Template] # Adicione Template aqui
   locations:
     # Local example data, file locations are relative to the backend process, typically `packages/backend`
     - type: file
@@ -99,7 +94,8 @@ catalog:
 
     - type: file
       target: ../../template-simples.yaml
-
+      rules:
+        - allow: [Template]
     ## Uncomment these lines to add more example data
     # - type: url
     #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml

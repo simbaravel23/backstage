@@ -34,12 +34,10 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
     <LogoFull />
       {/* AÇÕES NO CANTO SUPERIOR DIREITO */}
       
-      {/* CORREÇÃO DO MODAL DE BUSCA: o botão de busca é o trigger */}
-      <SidebarSearchModal>
-        <IconButton aria-label="Search" color="inherit">
-          <SearchIcon />
-        </IconButton>
-      </SidebarSearchModal>
+      {/* Botão de busca: navega para a página de busca */}
+      <IconButton aria-label="Search" color="inherit" component={Link} to="/search">
+        <SearchIcon />
+      </IconButton>
       
       {/* BOTÃO DE NOTIFICAÇÕES (Simplesmente um link para a rota /notifications) */}
       <IconButton aria-label="Notifications" color="inherit" component={Link} to="/notifications">

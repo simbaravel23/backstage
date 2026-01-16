@@ -21,10 +21,25 @@ spec:
 
   # Aqui definimos o que o Backstage vai fazer por baixo dos panos
   steps:
-    - id: log-message
-      name: Logando o nome
-      action: debug:log
+    - id: fetch-base
+      name: Buscando o Skeleton
+      action: fetch:template
       input:
-        message: "O nome escolhido foi: ${{ parameters.name }}"
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
 
-    # Em um cenário real, aqui viria o passo de "publish" para o GitHub
+    - id: publish
+      name: Publicando no GitHub
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: 'Projeto criado via Backstage por Ravel Silva'
+        repoUrl: 'github.com?owner=simbaravel23&repo=${{ parameters.name }}' # Use seu usuário aqui
+
+    - id: register
+      name: Registrando no Catálogo
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.remoteUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
